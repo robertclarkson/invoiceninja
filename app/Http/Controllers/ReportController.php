@@ -433,7 +433,7 @@ class ReportController extends BaseController
      */
     private function generateExpenseReport($startDate, $endDate, $isExport)
     {
-        $columns = ['vendor', 'client', 'date', 'expense_amount', 'invoiced_amount'];
+        $columns = ['vendor', 'client', 'date', 'category', 'expense_amount', 'invoiced_amount'];
 
         $account = Auth::user()->account;
         $displayData = [];
@@ -454,6 +454,7 @@ class ReportController extends BaseController
                 $expense->vendor ? ($isExport ? $expense->vendor->name : $expense->vendor->present()->link) : '',
                 $expense->client ? ($isExport ? $expense->client->getDisplayName() : $expense->client->present()->link) : '',
                 $expense->present()->expense_date,
+                $expense->expense_category ? $expense->expense_category->present()->name : '',
                 Utils::formatMoney($amount, $expense->currency_id),
                 Utils::formatMoney($invoiced, $expense->invoice_currency_id),
             ];
